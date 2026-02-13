@@ -13,8 +13,8 @@ PSRCHIVE官网：[https://psrchive.sourceforge.net](https://psrchive.sourceforge
 
 PSRCHIVE只能在Linux系统或conda中以一个python标准库进行安装。
 更多详细的安装说明、使用说明请以官网为准。
-\
-\
+
+
 **Step 1.**
 先确定自己想要在系统的哪个位置（目录）安装PSRCHIVE
  以 /home/<your_username> 用户个人目录为例
@@ -27,8 +27,8 @@ git clone git://git.code.sf.net/p/psrchive/code psrchive
 ```
 下载完毕后，工作路径下会有psrchive目录
 ![enter image description here](https://i.ibb.co/gM96jXfn/WPS-1.png)
-\
-\
+
+
 **Step 2.**
 原则上可以cd进入到psrchive目录下运行其中的bootstrap和configure文件了。但是根据本人在安装PSRCHIVE经历来看，依然需要事先配置好psrchive的各个环境变量及其工作目录。不然容易报错。
 
@@ -55,8 +55,8 @@ export PSRCAT_FILE=$PSRHOME/psrcat/psrcat.db
 ```bash
 export PSRHOME="/path/you/want/Pulsar"
 ```
-\
-\
+
+
 **Step 3. GNU Tools 的安装或更新**
 
 并非所有系统都安装好了GNU Tools系列工具包，而PSRCHIVE是基于这一开源工具包开发的系列数据处理包。在这里我将贴出安装和更新GNU Tools的指令：
@@ -67,8 +67,8 @@ sudo apt install -y autotools-dev autoconf libtool make
 sudo apt install g++ gfortran
 sudo apt install libfftw3-dev pgplot5 libcfitsio-dev
 ```
-\
-\
+
+
 **Step 4.进入psrchive目录，进行启动配置和编译**
 ```bash
 cd /path/you/download/psrchive
@@ -88,8 +88,8 @@ sudo make install
 运行上述make指令的时间会比较长，请耐心等待。
 
 新开一个终端，输出psrchive后如果有命令提示，就证明安装已经成功。
-\
-\
+
+
 **补充：**
 按照官网的提示：
 [https://psrchive.sourceforge.net/third/install.shtml](https://psrchive.sourceforge.net/third/install.shtml)
@@ -114,8 +114,8 @@ DSPSR软件的官网：
 [https://dspsr.sourceforge.net](https://dspsr.sourceforge.net)
 
 更多详细的安装说明、使用说明请以官网为准。
-\
-\
+
+
 **Step 1. 下载DSPSR源码**
 
 先确定自己想要在系统的哪个位置（目录）DSPSR
@@ -129,8 +129,8 @@ cd /home/<your_username>
 git clone --recursive git://git.code.sf.net/p/dspsr/code dspsr
 ```
 下载完成之后，工作目录上会出现dspsr目录。
-\
-\
+
+
 **Step 2. 进入dspsr目录，创建backends.list文件**
 ```bash
 sudo gedit backends.list
@@ -147,8 +147,8 @@ bpsr caspsr fits sigproc
 示例如下：
 ![enter image description here](https://i.ibb.co/j9mhVDPK/WPS-2.png)
 ![enter image description here](https://i.ibb.co/9MXsBzn/WPS-3.png)
-\
-\
+
+
 **Step 3.在dspsr目录下配置、编译与安装**
 
 分别运行以下指令：
@@ -175,8 +175,8 @@ DSPSR的默认安装目录：如果你如上“PSRCHIVE系列包的安装”中�
 如果没有设置```$PSRHOME```，那么DSPSR会在```make install```指令执行时把它的build products安装到``/usr/local``目录下。
 
 这一点请详见官网[https://dspsr.sourceforge.net/devel/install.shtml](https://dspsr.sourceforge.net/devel/install.shtml)
-\
-\
+
+
 **Step 4.在终端中输入dspsr --version，如果终端跳出版本信息即证明安装成功。**
 
 ![enter image description here](https://i.ibb.co/0p0NYWx2/WPS-4.png)
