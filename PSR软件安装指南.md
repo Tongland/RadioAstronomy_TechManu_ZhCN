@@ -178,6 +178,7 @@ DSPSR的默认安装目录：如果你如上“PSRCHIVE系列包的安装”中�
 \
 \
 **Step 4.在终端中输入dspsr --version，如果终端跳出版本信息即证明安装成功。**
+
 ![enter image description here](https://i.ibb.co/0p0NYWx2/WPS-4.png)
 
 *（空白，待后续补充）*
