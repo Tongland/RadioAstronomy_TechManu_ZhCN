@@ -181,4 +181,80 @@ DSPSR的默认安装目录：如果你如上“PSRCHIVE系列包的安装”中�
 
 ![enter image description here](https://i.ibb.co/0p0NYWx2/WPS-4.png)
 
-*（空白，待后续补充）*
+
+# ***重要补充：CUDA加速***
+
+**DSPSR支持使用CUDA加速其有关消色散、多频道的计算。**
+
+相关的信息可以详见官网https://dspsr.sourceforge.net/manuals/dspsr/gpu.shtml
+
+DSPSR使用CUDA相关功能之前需要预先设置PACKAGES变量的同时，也需要在编译时(./configure)输入相关的参数。
+
+如下教程是**假定你已经完成过DSPSR的安装，现需要重新编译DSPSR。**
+```bash
+# setenv 设置环境变量
+setenv PACKAGES /usr/local/cuda
+# 或：export 设置环境变量
+export PACKAGES="/usr/local/cuda"
+# 以上cuda的所在路径以 /usr/local/cuda 为例，到make步骤时需要 sudo。请以你的机器 cuda 所在的实际路径为准
+
+# 路径到 DSPSR 的源码目录
+cd /the/path/to/dspsr
+# 清除原先编译的dspsr后再./configure
+make clean
+# 重新 configure 并编译
+# 注意输入参数 --with-cuda-dir；为保险起见尽可能将所有 --with-cuda 参数硬编码至 ./configure
+./configure --with-cuda-dir=... \ # CUDA被安装目录
+			--with-cuda-include-dir=... \ # CUDA目录下的include
+			--with-cuda-lib-dir=... \ # CUDA目录下的lib
+			--prefix=$PSRHOME \ # 编译安装目录，这里选择为本教程常使用的$PSRHOME
+			--LD_LIBRARY_PATH=... \ # 库目录
+			PSRHOME=$PSRHOME \ # PSRHOME变量
+			CUDA_NVCC_FLAGS="-arch=sm_75" \ # 一般不需要设置-arch。除非CUDA版本高于显卡所能支持的最大版本。
+# 切记！必须根据机器/服务器集群所用的显卡(或GPU节点的显卡)设置-arch参数。
+# 如20系显卡的计算能力是7.5，这里的参数便设置为 sm_75
+...
+...
+...
+# 完成configure后输入 make && make install 进行编译安装；如果有报错，按照报错的提示来解决问题
+make
+make check
+make install
+
+```
+
+# **FFT性能优化**
+具体详见官网https://dspsr.sourceforge.net/manuals/dspsr/optimize.shtml
+
+
+### PSRCHIVE：Producing FFT Benchmarks for Central Processing Units
+
+```bash
+# PSRCHIVE FFT Optimizing (CPU)
+
+# 路径到 PSRCHIVE 的源码目录
+cd /the/path/to/psrchive
+cd Util/fft
+make bench # make bench 后需要经历相当长的时间, 请耐心等待其完成
+
+```
+
+### DSPSR: Producing FFT Benchmarks for Graphics Processing Units
+
+```bash
+# DSPSR FFT Optimizing (GPU)
+
+# 路径到 DSPSR 的源码目录
+cd /the/path/to/dspsr
+cd Benchmark # 如果没有 Benchmark， 可以自行 git clone 相应版本的 DSPSR ，然后复制进DSPSR源码目录即可
+
+# 运行 benchmark 程序，需要经历相当长的时间, 请耐心等待其完成（注意其报错）
+./filterbank_bench.csh
+
+# 复制 filterbank_bench.csh 产生的 filterbank_bench.out 至DSPSR的安装目录share中,
+# 并更名为 filterbank_bench_CUDA.dat
+cd filterbank_bench.out dspsr_prefix/share/filterbank_bench_CUDA.dat
+
+```
+
+
