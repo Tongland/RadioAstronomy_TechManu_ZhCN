@@ -181,10 +181,51 @@ DSPSR的默认安装目录：如果你如上“PSRCHIVE系列包的安装”中�
 
 ![enter image description here](https://i.ibb.co/0p0NYWx2/WPS-4.png)
 
+# ***重要补充：新版TEMPO2编译安装***
+
+TEMPO2 编译安装详情参考 https://bitbucket.org/psrsoft/tempo2/src/master/
+
+假设你需要在服务器/集群环境里安装 TEMPO2。
+
+由于国内众所周知的原因，sourceforge、git等一众开源码库在国内互联网环境下难以链接。您需要采取一定的技术手段将Tempo2源码或git库下载到您的工作环境下，后面利用诸如
+```bash
+rsync
+```
+的指令将 Tempo2 的源码/git库上传至服务器/集群下的用户目录。
+
+以下是具体安装步骤。假设您的用户目录是/home/rainvent:
+```bash
+
+# PSRHOME 环境变量设置
+export $PSRHOME="/home/rainvent/Pulsar" # 写入至~/.bashrc可永久设置
+# TEMPO2 环境变量设置
+export $TEMPO2="${PSRHOME}/tempo2" # 写入至~/.bashrc可永久设置
+export PATH="$TEMPO2/bin:${PATH}"
+
+# 路径至tempo2的源码目录
+cd path/to/the/tempo2
+# 将路径下的T2runtime所有内容复制到 $TEMPO2 下
+cp -r ./T2runtime/* $TEMPO2
+
+# 正式编译安装
+./configure --prefix="$TEMPO2" # ./configure --help 可以查看其他参数
+make
+make install
+
+# (可选) 编译安装tempo2插件
+make plugins
+make plugins-install
+```
+
+随后可以检测 TEMPO2 是否安装成功
+```
+which tempo2
+tempo2 -v
+```
 
 # ***重要补充：CUDA加速***
 
-**DSPSR支持使用CUDA加速其有关消色散、多频道的计算。**
+**DSPSR支持使用CUDA加速其有关消色散、FFT的计算。**
 
 相关的信息可以详见官网https://dspsr.sourceforge.net/manuals/dspsr/gpu.shtml
 
@@ -204,7 +245,7 @@ cd /the/path/to/dspsr
 make clean
 # 重新 configure 并编译
 # 注意输入参数 --with-cuda-dir；为保险起见尽可能将所有 --with-cuda 参数硬编码至 ./configure
-./configure --with-cuda-dir=... \ # CUDA被安装目录
+./configure --with-cuda-dir=... \ # CUDA安装目录
 			--with-cuda-include-dir=... \ # CUDA目录下的include
 			--with-cuda-lib-dir=... \ # CUDA目录下的lib
 			--prefix=$PSRHOME \ # 编译安装目录，这里选择为本教程常使用的$PSRHOME
@@ -216,12 +257,43 @@ make clean
 ...
 ...
 ...
-# 完成configure后输入 make && make install 进行编译安装；如果有报错，按照报错的提示来解决问题
+# 完成configure后输入 make && make install 即可进行编译安装；如果有报错，按照报错的提示来解决问题
+# 在这之前可以输入 grep CUDA Makefile 查看makefile是否有相关的参数被写入。
+# 如果没有请检查上一步 ./configure 是否有缺漏并重新操作
 make
 make check
 make install
 
 ```
+## **Q: 如果我选择安装DSPSR的一开始就设置好启用CUDA加速选项呢 ?**
+
+您可以选择在安装DSPSR的一开始就设置好CUDA加速选项。只需要
+```bash
+./configure
+```
+的时候设置好
+```bash
+--with-cuda-dir, --with-cuda-include-dir, --with-cuda-lib-dir
+```
+即可
+
+
+## **Q: 如何安装CUDA ?**
+
+从CUDA-toolkit文档官网 https://developer.nvidia.com/cuda-toolkit-archive 下载对应版本的CUDA安装即可。在这里不赘述。
+
+## **Q: DSPSR运行过程中如何启用CUDA加速 ?**
+
+只需要设置好```-cuda devices```选项即可。相关的信息详见官网https://dspsr.sourceforge.net/manuals/dspsr/gpu.shtml。
+
+如下所示
+
+```bash
+dspsr -cuda 0 # 启动显卡0的一个进程
+dspsr -cuda 0,1 # 启动显卡0, 1，两个显卡分别启动1个进程
+dspsr -cuda 0,0,1,1 # 启动显卡0, 1，两个显卡分别启动2个进程
+```
+以此类推......
 
 # **FFT性能优化**
 具体详见官网https://dspsr.sourceforge.net/manuals/dspsr/optimize.shtml
