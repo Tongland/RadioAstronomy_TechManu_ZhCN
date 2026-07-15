@@ -1,8 +1,12 @@
 # ***目录***
 
-**1.PSRCHIVE系列包的安装**
+**1. PSRCHIVE系列包的安装** 
 
-**2.DSPSR的安装**
+**2. DSPSR的安装**
+
+**重要补充: 新版TEMPO2编译安装**
+
+**重要补充: CUDA加速**
 
 *(待补充)*
 
@@ -15,9 +19,14 @@ PSRCHIVE只能在Linux系统或conda中以一个python标准库进行安装。
 更多详细的安装说明、使用说明请以官网为准。
 
 
-**Step 1.**
+## **Step 1. 下载PSRCHIVE源码**
+
+
+**选择1: git clone**
+
 先确定自己想要在系统的哪个位置（目录）安装PSRCHIVE
- 以 /home/<your_username> 用户个人目录为例
+
+以 /home/<your_username> 用户个人目录为例
 ```bash
 cd /home/<your_username>
 ```
@@ -26,10 +35,25 @@ cd /home/<your_username>
 git clone git://git.code.sf.net/p/psrchive/code psrchive
 ```
 下载完毕后，工作路径下会有psrchive目录
-![enter image description here](https://i.ibb.co/gM96jXfn/WPS-1.png)
+![Downloaded git of PSRCHIVE](https://i.ibb.co/gM96jXfn/WPS-1.png)
 
+**选择2: SourceForge**
 
-**Step 2.**
+进入到SourceForge项目页 https://sourceforge.net/projects/psrchive 点击"Files"然后再点击方框内的文件夹"psrchive", 即可看到多个版本的 PSRCHIVE 源码压缩文件。
+
+![SourceForge: PSRCHIVE](https://i.ibb.co/FkLqYc9d/PSRCHIVE-SF-Project-Download.png)
+
+点击任意一个下载即可。
+
+下载成功后, 切记要把源码压缩包用
+```bash
+# 假设你按照psrchive的版本是xxxx-yy-zz:
+tar -zxf psrchive-xxxx-yy-zz.tar.gz
+```
+指令进行解压。解压后会出现目录 ```psrchive-xxxx-yy-zz.tar.gz```, 这便是你下载下来的psrchive源码目录
+
+## **Step 2.**
+
 原则上可以cd进入到psrchive目录下运行其中的bootstrap和configure文件了。但是根据本人在安装PSRCHIVE经历来看，依然需要事先配置好psrchive的各个环境变量及其工作目录。不然容易报错。
 
 如何配置环境变量可以详见官网说明：
@@ -40,7 +64,7 @@ git clone git://git.code.sf.net/p/psrchive/code psrchive
 ```bash
 mkdir -p /home/<your_username>/Pulsar
 ```
-在用户个人目录 /home/<your_username>/.profile(或.bashrc) 文件中键入以下环境变量即可（以下PSRHOME变量的设置以用户个人目录下的Pulsar为例的）
+在用户个人目录 /home/<your_username>/.profile(或.bashrc) 文件中键入以下环境变量即可（以下PSRHOME变量的设置**以用户个人目录下的Pulsar**为例的）
 ```Bash
 export PSRHOME=$HOME/Pulsar
 export PATH=${PATH}:$PSRHOME/bin
@@ -57,7 +81,7 @@ export PSRHOME="/path/you/want/Pulsar"
 ```
 
 
-**Step 3. GNU Tools 的安装或更新**
+## **Step 3. GNU Tools 的安装或更新**
 
 并非所有系统都安装好了GNU Tools系列工具包，而PSRCHIVE是基于这一开源工具包开发的系列数据处理包。在这里我将贴出安装和更新GNU Tools的指令：
 ```bash
@@ -67,9 +91,9 @@ sudo apt install -y autotools-dev autoconf libtool make
 sudo apt install g++ gfortran
 sudo apt install libfftw3-dev pgplot5 libcfitsio-dev
 ```
+如果是在**没有给用户root权限的多用户环境/服务器集群**里, 你也可以将上述GNU Tools源码的压缩包下载至你的用户目录中，利用相应的解压缩指令解压源码后编译。
 
-
-**Step 4.进入psrchive目录，进行启动配置和编译**
+## **Step 4.进入psrchive目录，进行启动配置和编译**
 ```bash
 cd /path/you/download/psrchive
 ./bootstrap
@@ -90,7 +114,7 @@ sudo make install
 新开一个终端，输出psrchive后如果有命令提示，就证明安装已经成功。
 
 
-**补充：**
+## **补充：**
 按照官网的提示：
 [https://psrchive.sourceforge.net/third/install.shtml](https://psrchive.sourceforge.net/third/install.shtml)
 
@@ -116,9 +140,11 @@ DSPSR软件的官网：
 更多详细的安装说明、使用说明请以官网为准。
 
 
-**Step 1. 下载DSPSR源码**
+## **Step 1. 下载DSPSR源码**
 
 先确定自己想要在系统的哪个位置（目录）DSPSR
+
+**选择1: git clone** 
 
 以 /home/<your_username> 用户个人目录为例
 ```bash
@@ -128,10 +154,24 @@ cd /home/<your_username>
 ```bash
 git clone --recursive git://git.code.sf.net/p/dspsr/code dspsr
 ```
-下载完成之后，工作目录上会出现dspsr目录。
+下载完成之后，工作目录上会出现dspsr目录。 
 
+**选择2: SourceForge下载源码压缩文件**
 
-**Step 2. 进入dspsr目录，创建backends.list文件**
+进入到SourceForge项目页 https://sourceforge.net/projects/dspsr/, 点击"Files"然后再点击方框内的文件夹"dspsr", 即可看到多个版本的 DSPSR 源码压缩文件。
+
+![SourceForge: DSPSR](https://i.ibb.co/j94V0X52/DSPSR-SF-Project-Download.png)
+
+点击任意一个下载即可。
+
+下载成功后, 同理
+```bash
+# 假设你按照dspsr的版本是aaaa-bb-cc:
+tar -zxf dspsr-aaaa-bb-cc.tar.gz
+```
+解压后会出现目录 ```dspsr-aaaa-bb-cc.tar.gz```, 这便是你下载下来的dspsr源码目录
+
+## **Step 2. 进入dspsr目录，创建backends.list文件**
 ```bash
 sudo gedit backends.list
 ```
@@ -145,11 +185,12 @@ backends文件是用于列出所有你需要的后端名称，防止各后端代
 bpsr caspsr fits sigproc
 ```
 示例如下：
-![enter image description here](https://i.ibb.co/j9mhVDPK/WPS-2.png)
-![enter image description here](https://i.ibb.co/9MXsBzn/WPS-3.png)
+
+![example](https://i.ibb.co/j9mhVDPK/WPS-2.png)\
+![example](https://i.ibb.co/9MXsBzn/WPS-3.png)
 
 
-**Step 3.在dspsr目录下配置、编译与安装**
+## **Step 3.在dspsr目录下配置、编译与安装**
 
 分别运行以下指令：
 ```bash
@@ -161,7 +202,8 @@ sudo make install
 ```
 这一步可以不用太快开始。根据官网的提示，你可以把DSPSR安装到默认目录以外的地方，只需要在make install上指定--prefix参数即可，例如：
 ```bash
-sudo make install prefix="$HOME/Astro_sorfware"
+# 如果指定的位置没有权限写入, 需要sudo
+make install prefix="$HOME/Astro_sorfware"
 ```
 请确定好DSPSR的安装目录！
 
@@ -177,9 +219,9 @@ DSPSR的默认安装目录：如果你如上“PSRCHIVE系列包的安装”中�
 这一点请详见官网[https://dspsr.sourceforge.net/devel/install.shtml](https://dspsr.sourceforge.net/devel/install.shtml)
 
 
-**Step 4.在终端中输入dspsr --version，如果终端跳出版本信息即证明安装成功。**
+## **Step 4.在终端中输入dspsr --version，如果终端跳出版本信息即证明安装成功。**
 
-![enter image description here](https://i.ibb.co/0p0NYWx2/WPS-4.png)
+![version status of DSPSR](https://i.ibb.co/0p0NYWx2/WPS-4.png)
 
 # ***重要补充：新版TEMPO2编译安装***
 
@@ -212,7 +254,7 @@ cp -r ./T2runtime/* $TEMPO2
 make
 make install
 
-# (可选) 编译安装tempo2插件
+# (可选) 编译安装tempo2插件, 不过笔者从未安装成功过, 不知为何 (π.π)
 make plugins
 make plugins-install
 ```
