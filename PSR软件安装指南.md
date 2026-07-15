@@ -203,7 +203,7 @@ sudo make install
 这一步可以不用太快开始。根据官网的提示，你可以把DSPSR安装到默认目录以外的地方，只需要在make install上指定--prefix参数即可，例如：
 ```bash
 # 如果指定的位置没有权限写入, 需要sudo
-make install prefix="$HOME/Astro_sorfware"
+make install --prefix="$HOME/Astro_sorfware"
 ```
 请确定好DSPSR的安装目录！
 
